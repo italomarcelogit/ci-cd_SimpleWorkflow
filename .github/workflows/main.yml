@@ -1,0 +1,69 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI-CD
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  CI:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Docker login
+      # You may pin to the exact commit or the version.
+        uses: docker/login-action@v1.8.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PWD }}
+          
+      # uses: docker/build-push-action@9379083e426e2e84abb80c8c091f5cdeb7d3fd7a
+      - name: Criando imagem docker
+        uses: docker/build-push-action@v2.3.0
+        with:
+          context: ./
+          file: ./Dockerfile
+          tags: |
+            italomarcelo/calculadora:start
+            italomarcelo/calculadora:${{ github.run_number }}
+          push: true
+
+  CD:
+    needs: [CI]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Kubernetes set context
+        uses: Azure/k8s-set-context@v1
+        with:
+          # Kubernetes Config
+          kubeconfig: ${{ secrets.K8S_CONFIG }}
+      - name: Deploy MongoDB
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          # Path to the manifest files which will be used for deployment.
+          manifests: |
+            yaml-mongo/mongo-01-deployment.yaml
+            yaml-mongo/mongo-02-service.yaml
+            yaml-mongo/mongo-03-pv.yaml
+            yaml-mongo/mongo-04-pvc.yaml
+      - name: Deploy App
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          images: 'italomarcelo/kube:${{ github.run_number }}'
+          manifests: |
+            yaml/deployment.yaml
+            yaml/service.yaml
