@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculadora-deployment
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 3
+  selector:
+    matchLabels: 
+      app: calculadora-deployment
+  template:
+    metadata:
+      labels:
+        app: calculadora-deployment
+      annotations:
+        prometheus.io/scrape: 'true'
+        promethues.io/path: /metrics
+        promethues.io/port: '8080'
+    spec:
+      containers:
+      - name: calculadora-deployment
+        image: italomarcelo/calculadora:start
+        ports:
+          - containerPort: 8080
+        imagePullPolicy: Always

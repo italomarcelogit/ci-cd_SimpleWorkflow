@@ -1,0 +1,7 @@
+service:
+  # qdo subir p/ ci cd no git, alterar p/ LoadBalancer
+  type: NodePort
+  nodePort: 30002
+
+adminUser: adminUser
+adminPassword: italoimc
