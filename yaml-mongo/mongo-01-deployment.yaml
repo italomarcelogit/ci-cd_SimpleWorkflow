@@ -1,10 +1,8 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: mongodb
 spec:
-  replicas: 1
-  serviceName: 'mongodb'
   selector: 
     matchLabels:
       app: mongodb
@@ -13,15 +11,15 @@ spec:
       labels:
         app: mongodb
     spec:
-      volumes:
-        - name: calc-mongo-storage
-          persistentVolumeClaim:
-            claimName: mongodb-pvc
       containers:
         - name: mongodb
           image: mongo:4.2.8
           ports:
             - containerPort: 27017
           volumeMounts:
-            - mountPath: '/data/db'
-              name: calc-mongo-storage
+            - name: storage
+              mountPath: /data/db
+      volumes:
+        - name: storage 
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
