@@ -3,9 +3,11 @@ kind: PersistentVolume
 metadata:
   name: mongodb-pv
 spec:
-  capacity:
+  capacity: 
     storage: 256Mi
   accessModes:
     - ReadWriteOnce
-  hostPath:
-    path: /tmp/db
+  persistentVolumeReclaimPolicy: Retain
+  gcePersistentDisk:
+    pdName: mongodb
+    fsType: ext4
