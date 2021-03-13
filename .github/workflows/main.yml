@@ -56,10 +56,9 @@ jobs:
         with:
           # Path to the manifest files which will be used for deployment.
           manifests: |
-            yaml-mongo/mongo-02-service.yaml
-            yaml-mongo/mongo-03-pv.yaml
-            yaml-mongo/mongo-04-pvc.yaml
             yaml-mongo/mongo-01-deployment.yaml
+            yaml-mongo/mongo-02-service.yaml
+            
       - name: Deploy App
         uses: Azure/k8s-deploy@v1.3
         with:
