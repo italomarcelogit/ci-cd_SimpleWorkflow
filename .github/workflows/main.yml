@@ -58,8 +58,6 @@ jobs:
           manifests: |
             yaml-mongo/mongo-01-deployment.yaml
             yaml-mongo/mongo-02-service.yaml
-            yaml-mongo/mongo-03-pv.yaml
-            yaml-mongo/mongo-04-pvc.yaml
             
       - name: Deploy App
         uses: Azure/k8s-deploy@v1.3
