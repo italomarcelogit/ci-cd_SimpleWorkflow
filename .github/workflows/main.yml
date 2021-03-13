@@ -64,5 +64,5 @@ jobs:
         with:
           images: 'italomarcelo/kube:${{ github.run_number }}'
           manifests: |
-            yaml/deployment.yaml
-            yaml/service.yaml
+            yaml-app/deployment.yaml
+            yaml-app/service.yaml
