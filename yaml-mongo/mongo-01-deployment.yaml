@@ -3,6 +3,8 @@ kind: StatefulSet
 metadata:
   name: mongodb
 spec:
+  replicas: 1
+  serviceName: 'mongodb'
   selector: 
     matchLabels:
       app: mongodb
