@@ -6,8 +6,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-  replicas: 2
+      maxSurge: 2
+  replicas: 6
   selector:
     matchLabels: 
       app: calculadora-deployment
