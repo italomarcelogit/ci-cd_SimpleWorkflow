@@ -5,6 +5,7 @@ metadata:
   labels: 
     name: mongodb-pv
 spec:
+  storageClassName: local-path
   capacity:
     storage: 256Mi
   accessModes:
