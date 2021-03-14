@@ -18,7 +18,7 @@ dataMongo = {
 app = Flask(__name__)
 # METRICS
 metrics = PrometheusMetrics(app)
-versao = "v1.0.0"
+versao = "v1.0.1"
 contador_por_path = metrics.counter(
     'url', 'Requests count by url', labels={'url': lambda: request.path, 'versao': versao}
 )
