@@ -1,0 +1,1 @@
+k3d cluster create meucluster --agents 2 --servers 1 -p "8080:30000@loadbalancer" -p "8081:30001@loadbalancer" -p "8082:30002@loadbalancer"
