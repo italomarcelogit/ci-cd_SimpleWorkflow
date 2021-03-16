@@ -7,7 +7,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 2
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels: 
       app: calculadora-deployment
